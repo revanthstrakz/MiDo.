@@ -234,11 +234,7 @@ static void repopulate_stats(int cpu)
 void trigger_cpu_pwr_stats_calc(void)
 {
 #ifdef ENABLE_TSENS_SAMPLING
-<<<<<<< HEAD
 	int cpu, rc;
-=======
-	int cpu;
->>>>>>> 362d1b3357dd... power: msm-core: Compile out temperature polling
 	static long prev_temp[NR_CPUS];
 	struct cpu_activity_info *cpu_node;
 	long temp;
