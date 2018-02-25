@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 3.18.94 Kernel Configuration
+# Linux/arm64 3.18.95 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -2924,6 +2924,7 @@ CONFIG_QTI_PP=y
 CONFIG_SND_SOC_CPE=y
 CONFIG_SND_SOC_MSM8X16=y
 CONFIG_SND_SOC_I2C_AND_SPI=y
+CONFIG_SOUND_CONTROL=y
 
 #
 # CODEC drivers
