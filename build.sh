@@ -2,11 +2,14 @@
 
 CCACHE=$(command -v ccache)
 
-TOOLCHAIN=/home/adesh/Adesh/kernel/gcc-prebuilts/bin/aarch64-linaro-linux-android-
+TOOLCHAIN=/home/adesikha15/aarch64-linux-android/bin/aarch64-cortex_a53-linux-android-
 
 export CROSS_COMPILE="${CCACHE} ${TOOLCHAIN}"
 
 export ARCH=arm64
+
+export KBUILD_BUILD_USER=adesh15
+export KBUILD_BUILD_HOST=reactor
 
 make clean O=out/
 make mrproper O=out/
