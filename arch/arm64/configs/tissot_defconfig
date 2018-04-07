@@ -4516,3 +4516,12 @@ CONFIG_ARCH_HAS_SG_CHAIN=y
 CONFIG_QMI_ENCDEC=y
 # CONFIG_QMI_ENCDEC_DEBUG is not set
 # CONFIG_STRICT_MEMORY_RWX is not set
+<<<<<<< HEAD:arch/arm64/configs/tissot_defconfig
+=======
+CONFIG_ASMP=y
+CONFIG_LAZYPLUG=y
+CONFIG_THUNDERPLUG_CONTROL=y
+CONFIG_INTELLI_HOTPLUG=y
+CONFIG_BLU_PLUG=y
+CONFIG_MSM_HOTPLUG=y
+>>>>>>> b93f4139f79c... Add hotplug drivers:arch/arm64/configs/enlight_defconfig
