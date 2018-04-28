@@ -355,6 +355,7 @@ CONFIG_PCI_LABEL=y
 # Kernel Features
 #
 CONFIG_FB_MSM_MDSS_KCAL_CTRL=y
+CONFIG_DYNAMIC_FSYNC=y
 
 #
 # ARM errata workarounds via the alternatives framework
