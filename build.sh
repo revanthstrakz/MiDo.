@@ -59,12 +59,12 @@ defconfig()
 {
 if [ "$CLANG" == "yes" ]
 then
-export CLANG_PATH=/home/adesikha15/clang/clang-4679922/bin
+export CLANG_PATH=/home/adesikha15/clang/clang-7.0.2/bin
 export PATH=${CLANG_PATH}:${PATH}
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export TCHAIN_PATH="/home/adesikha15/gcc-4.9/bin/aarch64-linux-android-"
 export CROSS_COMPILE="${CCACHE} ${TCHAIN_PATH}"
-export CLANG_TCHAIN="/home/adesikha15/clang/clang-4679922/bin/clang"
+export CLANG_TCHAIN="/home/adesikha15/clang/clang-7.0.2/bin/clang"
 export KBUILD_COMPILER_STRING="$(${CLANG_TCHAIN} --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')"
 export FINAL_ZIP="${ZIPDIR}/Feather-mido-clang-$(date +"%Y%m%d")-$(date +"%H%M%S").zip"
 else
