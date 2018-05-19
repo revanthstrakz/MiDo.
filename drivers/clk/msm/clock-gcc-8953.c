@@ -382,11 +382,12 @@ static struct clk_freq_tbl ftbl_gfx3d_clk_src[] = {
 	F_MM( 216000000, FIXED_CLK_SRC, gpll6_main_div2_gfx,  2.5,    0,     0),
 	F_MM( 266670000, FIXED_CLK_SRC,               gpll0,    3,    0,     0),
 	F_MM( 320000000, FIXED_CLK_SRC,               gpll0,  2.5,    0,     0),
-	F_MM( 400000000, FIXED_CLK_SRC,               gpll0,    2,    0,     0),
+	F_MM( 455000000, FIXED_CLK_SRC,               gpll0,    2,    0,     0),
 	F_MM( 460800000, FIXED_CLK_SRC,       gpll4_out_aux,  2.5,    0,     0),
-	F_MM( 510000000,    1020000000,               gpll3,    1,    0,     0),
-	F_MM( 560000000,    1120000000,               gpll3,    1,    0,     0),
-	F_MM( 650000000,    1300000000,               gpll3,    1,    0,     0),
+	F_MM( 560000000,    1180000000,               gpll3,    1,    0,     0),
+	F_MM( 682000000,    1320000000,               gpll3,    1,    0,     0),
+	F_MM( 739000000,    1430000000,               gpll3,    1,    0,     0),
+	F_MM( 855000000,    1510000000,               gpll3,    1,    0,     0),
 
 	F_END
 };
@@ -1177,10 +1178,6 @@ static struct rcg_clk camss_gp1_clk_src = {
 };
 
 static struct clk_freq_tbl ftbl_mclk0_clk_src[] = {
-#ifdef CONFIG_MACH_XIAOMI_MIDO
-	F(  19200000,              xo,    1,    0,     0),
-#endif
-	F(  12000000, gpll6_main_div2,    1,    2,    90),
 	F(  24000000, gpll6_main_div2,    1,    2,    45),
 	F(  33330000, gpll0_main_div2,   12,    0,     0),
 	F(  36610000, gpll6,		  1,    2,    59),
@@ -1203,7 +1200,6 @@ static struct rcg_clk mclk0_clk_src = {
 };
 
 static struct clk_freq_tbl ftbl_mclk1_clk_src[] = {
-	F(  12000000, gpll6_main_div2,    1,    2,    90),
 	F(  24000000, gpll6_main_div2,    1,    2,    45),
 	F(  33330000, gpll0_main_div2,   12,    0,     0),
 	F(  36610000, gpll6,		  1,    2,    59),
@@ -1226,7 +1222,6 @@ static struct rcg_clk mclk1_clk_src = {
 };
 
 static struct clk_freq_tbl ftbl_mclk2_clk_src[] = {
-	F(  12000000, gpll6_main_div2,    1,    2,    90),
 	F(  24000000, gpll6_main_div2,    1,    2,    45),
 	F(  33330000, gpll0_main_div2,   12,    0,     0),
 	F(  36610000, gpll6,		  1,    2,    59),
@@ -1249,7 +1244,6 @@ static struct rcg_clk mclk2_clk_src = {
 };
 
 static struct clk_freq_tbl ftbl_mclk3_clk_src[] = {
-	F(  12000000, gpll6_main_div2,    1,    2,    90),
 	F(  24000000, gpll6_main_div2,    1,    2,    45),
 	F(  33330000, gpll0_main_div2,   12,    0,     0),
 	F(  36610000, gpll6,		  1,    2,    59),
