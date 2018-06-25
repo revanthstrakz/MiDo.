@@ -510,9 +510,15 @@ extern struct cpufreq_governor cpufreq_gov_ondemand;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_CONSERVATIVE)
 extern struct cpufreq_governor cpufreq_gov_conservative;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_conservative)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_CLARITY)
+extern struct cpufreq_governor cpufreq_gov_clarity;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_clarity)
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_INTERACTIVE)
 extern struct cpufreq_governor cpufreq_gov_interactive;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_interactive)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_INTELLIACTIVE)
+extern struct cpufreq_governor cpufreq_gov_intelliactive;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_intelliactive)
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_SCHED)
 extern struct cpufreq_governor cpufreq_gov_sched;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_sched)
@@ -522,6 +528,57 @@ extern struct cpufreq_governor cpufreq_gov_blu_active;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_IMPULSE)
 extern struct cpufreq_governor cpufreq_gov_impulse;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_impulse)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_BIOSHOCK)
+extern struct cpufreq_governor cpufreq_gov_bioshock;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_bioshock)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_DARKNESS)
+extern struct cpufreq_governor cpufreq_gov_darkness;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_darkness)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL)
+extern struct cpufreq_governor cpufreq_gov_schedutil;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_schedutil)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ELECTROUTIL)
+extern struct cpufreq_governor cpufreq_gov_electroutil;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_electroutil)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ALUCARDSCHED)
+extern struct cpufreq_governor cpufreq_gov_alucardsched;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_alucardsched)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_DARKNESSSCHED)
+extern struct cpufreq_governor cpufreq_gov_darknesssched;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_darknesssched)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_HELIX)
+extern struct cpufreq_governor cpufreq_gov_helix_schedutil;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_helix_schedutil)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ENERGY)
+extern struct cpufreq_governor cpufreq_gov_energy_dcfc;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_energy_dcfc)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_PWRUTILX)
+extern struct cpufreq_governor cpufreq_gov_pwrutilx;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_pwrutilx)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_CHILL)
+extern struct cpufreq_governor cpufreq_gov_chill;
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_chill)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_NIGHTMARE)
+extern struct cpufreq_governor cpufreq_gov_nightmare;
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_nightmare)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ALUCARD)
+extern struct cpufreq_governor cpufreq_gov_alucard;
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_alucard)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ELECTRON)
+extern struct cpufreq_governor cpufreq_gov_electron;
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_electron)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_RELAXED)
+extern struct cpufreq_governor cpufreq_gov_relaxed;
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_relaxed)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_YANKACTIVE)
+extern struct cpufreq_governor cpufreq_gov_yankactive;
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_yankactive)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ELEMENTALX)
+extern struct cpufreq_governor cpufreq_gov_elementalx;
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_elementalx)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ZZMOOVE)
+extern struct cpufreq_governor cpufreq_gov_zzmoove;
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_zzmoove)
 #endif
 
 /*********************************************************************
