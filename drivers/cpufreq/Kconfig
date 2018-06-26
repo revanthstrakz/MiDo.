@@ -448,9 +448,6 @@ config CPU_FREQ_GOV_PWRUTILX
 	  If in doubt, say N.
 
 
-config CPU_FREQ_GOV_SCHED
-	bool "'sched' cpufreq governor"
-	depend
 comment "CPU frequency scaling drivers"
 
 config CPUFREQ_DT
