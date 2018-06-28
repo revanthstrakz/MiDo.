@@ -30,8 +30,15 @@
 #include <trace/events/power.h>
 #include <linux/compiler.h>
 #include <linux/wakeup_reason.h>
+#include <linux/cpufreq.h>
 
 #include "power.h"
+#ifdef CONFIG_MSM_RPM_STATS_LOG
+#include "../../drivers/soc/qcom/rpm_stats.h"
+#endif
+#ifdef CONFIG_SUSPEND_DEBUG
+#include "user_sysfs_private.h"
+#endif
 
 const char *pm_labels[] = { "mem", "standby", "freeze", NULL };
 const char *pm_states[PM_SUSPEND_MAX];
@@ -42,6 +49,34 @@ static DECLARE_WAIT_QUEUE_HEAD(suspend_freeze_wait_head);
 
 enum freeze_state __read_mostly suspend_freeze_state;
 static DEFINE_SPINLOCK(suspend_freeze_lock);
+
+#ifdef CONFIG_SUSPEND_WATCHDOG
+static void suspend_watchdog_handler(unsigned long data);
+static DEFINE_TIMER(wd_timer, suspend_watchdog_handler, 0, 0);
+
+static void suspend_watchdog_handler(unsigned long data)
+{
+        struct task_struct *tsk = (struct task_struct *)data;
+
+        pr_err("**** suspend timeout ****\n");
+        show_stack(tsk, NULL);
+        panic("suspend timeout triggered panic\n");
+}
+
+static void suspend_watchdog_set(void)
+{
+	wd_timer.data = (unsigned long)current;
+	mod_timer(&wd_timer, jiffies + HZ * CONFIG_SUSPEND_WATCHDOG_TIMEOUT);
+}
+
+static void suspend_watchdog_clear(void)
+{
+	del_timer_sync(&wd_timer);
+}
+#else
+#define suspend_watchdog_set()		do {} while (0)
+#define suspend_watchdog_clear()	do {} while (0)
+#endif
 
 void freeze_set_ops(const struct platform_freeze_ops *ops)
 {
@@ -275,7 +310,6 @@ static int suspend_prepare(suspend_state_t state)
 	if (!error)
 		return 0;
 
-	log_suspend_abort_reason("One or more tasks refusing to freeze");
 	suspend_stats.failed_freeze++;
 	dpm_save_failed_step(SUSPEND_FREEZE);
  Finish:
@@ -305,6 +339,7 @@ void __weak arch_suspend_enable_irqs(void)
  */
 static int suspend_enter(suspend_state_t state, bool *wakeup)
 {
+	char suspend_abort[MAX_SUSPEND_ABORT_LEN];
 	int error, last_dev;
 
 	error = platform_suspend_prepare(state);
@@ -353,6 +388,12 @@ static int suspend_enter(suspend_state_t state, bool *wakeup)
 		goto Platform_wake;
 	}
 
+#ifdef CONFIG_SUSPEND_DEBUG
+	vreg_before_sleep_save_configs();
+	tlmm_before_sleep_set_configs();
+	tlmm_before_sleep_save_configs();
+#endif
+
 	error = disable_nonboot_cpus();
 	if (error || suspend_test(TEST_CPUS)) {
 		log_suspend_abort_reason("Disabling non-boot cpus failed");
@@ -373,10 +414,11 @@ static int suspend_enter(suspend_state_t state, bool *wakeup)
 				state, false);
 			events_check_enabled = false;
 		} else if (*wakeup) {
+			pm_get_active_wakeup_sources(suspend_abort,
+				MAX_SUSPEND_ABORT_LEN);
+			log_suspend_abort_reason(suspend_abort);
 			error = -EBUSY;
 		}
-
-		start_logging_wakeup_reasons();
 		syscore_resume();
 	}
 
@@ -458,6 +500,7 @@ int suspend_devices_and_enter(suspend_state_t state)
  */
 static void suspend_finish(void)
 {
+	msm_do_pm_boost(true);
 	suspend_thaw_processes();
 	pm_notifier_call_chain(PM_POST_SUSPEND);
 	pm_restore_console();
@@ -502,7 +545,9 @@ static int enter_state(suspend_state_t state)
 #endif
 
 	pr_debug("PM: Preparing system for %s sleep\n", pm_states[state]);
+	suspend_watchdog_set();
 	error = suspend_prepare(state);
+	suspend_watchdog_clear();
 	if (error)
 		goto Unlock;
 
@@ -517,7 +562,9 @@ static int enter_state(suspend_state_t state)
 
  Finish:
 	pr_debug("PM: Finishing wakeup.\n");
+	suspend_watchdog_set();
 	suspend_finish();
+	suspend_watchdog_clear();
  Unlock:
 	mutex_unlock(&pm_mutex);
 	return error;
@@ -526,11 +573,11 @@ static int enter_state(suspend_state_t state)
 static void pm_suspend_marker(char *annotation)
 {
 	struct timespec ts;
-	struct tm tm;
+	struct rtc_time tm;
 
 	getnstimeofday(&ts);
-	time_to_tm(ts.tv_sec, 0, &tm);
-	pr_info("PM: suspend %s %ld-%02d-%02d %02d:%02d:%02d.%09lu UTC\n",
+	rtc_time_to_tm(ts.tv_sec, &tm);
+	pr_info("PM: suspend %s %d-%02d-%02d %02d:%02d:%02d.%09lu UTC\n",
 		annotation, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
 		tm.tm_hour, tm.tm_min, tm.tm_sec, ts.tv_nsec);
 }

@@ -27,6 +27,19 @@ config WAKELOCK
 
 	  Say Y if you are running an android userspace.
 
+config POWERSUSPEND
+	bool "Power suspend"
+	default y
+	---help---
+	  Call early suspend handlers when the user requested sleep state
+	  changes.
+
+config POWERSUSPEND_DEBUG
+	bool "Powersuspend driver debugging code"
+	depends on POWERSUSPEND
+	help
+	  Output debugging info in dmesg [POWERSUSPEND] (Yank555.lu)
+
 config HIBERNATE_CALLBACKS
 	bool
 
@@ -84,20 +97,20 @@ config PM_STD_PARTITION
 	default ""
 	---help---
 	  The default resume partition is the partition that the suspend-
-	  to-disk implementation will look for a suspended disk image. 
+	  to-disk implementation will look for a suspended disk image.
 
-	  The partition specified here will be different for almost every user. 
+	  The partition specified here will be different for almost every user.
 	  It should be a valid swap partition (at least for now) that is turned
-	  on before suspending. 
+	  on before suspending.
 
 	  The partition specified can be overridden by specifying:
 
-		resume=/dev/<other device> 
+		resume=/dev/<other device>
 
-	  which will set the resume partition to the device specified. 
+	  which will set the resume partition to the device specified.
 
 	  Note there is currently not a way to specify which device to save the
-	  suspended image to. It will simply pick the first available swap 
+	  suspended image to. It will simply pick the first available swap
 	  device.
 
 config PM_SLEEP
@@ -264,6 +277,7 @@ config APM_EMULATION
 
 config PM_OPP
 	bool
+	select SRCU
 	---help---
 	  SOCs have a standard set of tuples consisting of frequency and
 	  voltage pairs that the device will support per voltage domain. This
@@ -326,12 +340,56 @@ config SUSPEND_TIME
 	  keeps statistics on the time spent in suspend in
 	  /sys/kernel/debug/suspend_time
 
-config	BOEFFLA_WL_BLOCKER
-	bool "Boeffla generic wakelock blocker driver"
-	depends on PM
-	default N
+config SUSPEND_TIME_TIMEKEEPING
+	bool "get suspend time from timekeeping"
+	depends on SUSPEND_TIME
+	default n
+	---help---
+	  Get the suspend time in suspend from timekeeping for the archs
+	  that don't support persistent clock.
+
+config SUSPEND_WATCHDOG
+	bool "Suspend watchdog timer support"
+	depends on SUSPEND
+	default n
+	---help---
+	  Say Y here if you want to use suspend watchdog timer.
+
+	  If unsure, say N.
+
+config SUSPEND_WATCHDOG_TIMEOUT
+	int "Suspend watchdog timeout in seconds"
+	range 1 120
+	default 60
+	depends on SUSPEND_WATCHDOG
 
 config PM_SYNC_BEFORE_SUSPEND
 	bool "Sync file systems before suspend"
 	depends on SUSPEND
 	default y
+
+config QUICK_WAKEUP
+	bool "Quick wakeup"
+	depends on SUSPEND
+	default n
+	---help---
+	  Allow kernel driver to do periodic jobs without resuming the full system
+	  This option can increase battery life on android powered smartphone.
+
+config SUSPEND_DEBUG
+	bool "Enable snapshot of regulator and tlmm when suspend"
+	depends on SUSPEND
+	default n
+	help
+	  This allows you to dump the regulator state and tlmm configuration
+	  before suspend. It doesn't work only if you have read the system
+	  file node /sys/privae/tlmm_before_sleep and vreg_before_sleep
+
+config DEDUCE_WAKEUP_REASONS
+	bool
+	default n
+
+config	BOEFFLA_WL_BLOCKER
+		bool "Boeffla generic wakelock blocker driver"
+		depends on PM
+		default N
