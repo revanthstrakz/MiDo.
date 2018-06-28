@@ -119,7 +119,9 @@ header-y += errno.h
 header-y += errqueue.h
 header-y += esoc_ctrl.h
 header-y += ethtool.h
+ifeq ($(ANDROID_BUILD_TOP),)
 header-y += eventpoll.h
+endif
 header-y += fadvise.h
 header-y += falloc.h
 header-y += fanotify.h
@@ -247,7 +249,6 @@ endif
 
 header-y += l2tp.h
 header-y += libc-compat.h
-header-y += lirc.h
 header-y += limits.h
 header-y += llc.h
 header-y += loop.h
@@ -434,6 +435,7 @@ header-y += sonet.h
 header-y += sonypi.h
 header-y += sound.h
 header-y += soundcard.h
+header-y += spcom.h
 header-y += stat.h
 header-y += stddef.h
 header-y += string.h
