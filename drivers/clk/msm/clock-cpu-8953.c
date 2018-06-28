@@ -132,7 +132,7 @@ static struct pll_clk apcs_hf_pll = {
 	},
 	.base = &virt_bases[APCS_C0_PLL_BASE],
 	.max_rate = 2400000000UL,
-	.min_rate = 400000000UL,
+	.min_rate = 652800000UL,
 	.src_rate =  19200000UL,
 	.c = {
 		.parent = &xo_a_clk.c,
@@ -144,7 +144,7 @@ static struct pll_clk apcs_hf_pll = {
 	},
 };
 
-static const char *mux_names[] = {"c0", "c1", "cci"};
+static const char const *mux_names[] = {"c0", "c1", "cci"};
 
 /* Perf Cluster */
 static struct mux_div_clk a53ssmux_perf = {

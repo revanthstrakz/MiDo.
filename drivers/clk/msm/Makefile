@@ -1,3 +1,5 @@
+CFLAGS_clock-gcc-8996.o := -Wno-literal-conversion
+CFLAGS_clock-mmss-8996.o := -Wno-literal-conversion
 obj-y				+= clock.o
 obj-y				+= clock-dummy.o
 obj-y				+= clock-generic.o
@@ -15,14 +17,6 @@ obj-$(CONFIG_DEBUG_FS)		+= clock-debug.o
 # MDM9607
 obj-$(CONFIG_ARCH_MDM9607)	+= clock-a7.o
 obj-$(CONFIG_ARCH_MDM9607)	+= clock-gcc-mdm9607.o
-
-# MSM 8996
-obj-$(CONFIG_ARCH_MSM8996)	+= clock-gcc-8996.o
-obj-$(CONFIG_ARCH_MSM8996)	+= clock-mmss-8996.o
-obj-$(CONFIG_ARCH_MSM8996)	+= clock-cpu-8996.o
-obj-$(CONFIG_ARCH_MSMCOBALT)	+= clock-osm.o
-CFLAGS_clock-gcc-8996.o		+= $(call cc-disable-warning,literal-conversion)
-CFLAGS_clock-mmss-8996.o	+= $(call cc-disable-warning,literal-conversion)
 
 # MDM9640
 obj-$(CONFIG_ARCH_MDM9640)	+= clock-a7.o
