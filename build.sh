@@ -1,19 +1,22 @@
 #!/bin/sh
+
 # Copyright (C) 2018 Adesh Ikhar (Adesh15)
+# SPDX-License-Identifier: GPL-3.0-only
 
 export TERM=xterm
 
 source ~/reactor/.creds
 source ~/scripts/common
-source ~/scripts/startupstuff.sh
 onLogin
 
 #TG send message function
 if [ "$CHAT" == "adesh" ]
 then
-export CHAT_ID="-318772221 $CHAT_ID"
-else
-export CHAT_ID="-1001163172007 $CHAT_ID"
+export CHAT_ID="$MY_CHAT $CHAT_ID"
+fi
+if [ "$CHAT" == "testers" ]
+then
+export CHAT_ID="$TEST_CHAT $CHAT_ID"
 fi
 
 ROOT_PATH=$PWD
@@ -38,12 +41,12 @@ status()
 {
 if [ ! -f "${IMAGE}" ]; then
 reportError "Kernel compilation failed"
-sendTG "Build Failed"
-sendTG "@Adesh15, check console fast."
+tgm "Build Failed"
+tgm "@Adesh15, check console fast."
 exit 1
 else
 reportSuccess "Build Successful"
-sendTG "Build Successful"
+tgm "Build Successful"
 fi
 }
 
@@ -82,10 +85,10 @@ compile()
 echoText "Compiling Kernel"
 if [ "$CLANG" == "yes" ]
 then
-sendTG "Building [${FINAL_VER}]($BUILD_URL)"
+tgm "[Building]($BUILD_URL) \`${FINAL_VER}\`"
 make CC=clang -j$(nproc --all) O=out/
 else
-sendTG "Building [${FINAL_VER}]($BUILD_URL)"
+tgm "[Building]($BUILD_URL) \`${FINAL_VER}\`"
 make -j$(nproc --all) O=out/
 fi
 status
@@ -100,9 +103,9 @@ cd "${ZIPDIR}"
 zip -r9 "${FINAL_ZIP}" *
 size=$(du -sh $FINAL_ZIP | awk '{print $1}')
 fileid=$(~/gdrive upload --parent ${KERNEL_BUILDS} ${FINAL_ZIP} | tail -1 | awk '{print $2}')
-sendTG "[${FINAL_ZIP}](https://drive.google.com/uc?id=$fileid&export=download)"
-sendTG "FileSize - $size"
-sendTG "${POST_MESSAGE}"
+tgm "[${FINAL_ZIP}](https://drive.google.com/uc?id=$fileid&export=download)"
+tgm "FileSize - $size"
+tgm "${POST_MESSAGE}"
 }
 
 START=$(date +"%s")
