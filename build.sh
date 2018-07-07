@@ -5,19 +5,12 @@
 
 export TERM=xterm
 
-source ~/reactor/.creds
-source ~/scripts/common
+source ~/mystuff/.creds
+source ~/mystuff/common
 onLogin
 
 #TG send message function
-if [ "$CHAT" == "adesh" ]
-then
 export CHAT_ID="$MY_CHAT $CHAT_ID"
-fi
-if [ "$CHAT" == "testers" ]
-then
-export CHAT_ID="$TEST_CHAT $CHAT_ID"
-fi
 
 ROOT_PATH=$PWD
 
@@ -37,23 +30,8 @@ rm -rf $ZIPDIR/*.zip
 rm -rf $ZIPDIR/Image*
 }
 
-status()
-{
-if [ ! -f "${IMAGE}" ]; then
-reportError "Kernel compilation failed"
-tgm "Build Failed"
-tgm "@Adesh15, check console fast."
-exit 1
-else
-reportSuccess "Build Successful"
-tgm "Build Successful"
-fi
-}
-
 defconfig()
 {
-if [ "$CLANG" == "yes" ]
-then
 export CLANG_PATH=/home/adesikha15/clang/clang-7.0.2/bin
 export PATH=${CLANG_PATH}:${PATH}
 export CLANG_TRIPLE=aarch64-linux-gnu-
@@ -63,35 +41,18 @@ export CLANG_TCHAIN="/home/adesikha15/clang/clang-7.0.2/bin/clang"
 export KBUILD_COMPILER_STRING="$(${CLANG_TCHAIN} --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')"
 FINAL_VER="${KERNEL_NAME}-${DEVICE}-clang"
 FINAL_ZIP="${FINAL_VER}-$(date +"%Y%m%d").zip"
-else
-export TOOLCHAIN=/home/adesikha15/toolchain/bin/aarch64-linux-
-export CROSS_COMPILE="${CCACHE} ${TOOLCHAIN}"
-FINAL_VER="${KERNEL_NAME}-${DEVICE}"
-FINAL_ZIP="${FINAL_VER}-$(date +"%Y%m%d").zip"
-fi
 make clean O=out/
 make mrproper O=out/
 echoText "Generating Defconfig"
-if [ "$CLANG" == "yes" ]
-then
 make CC=clang mido_defconfig O=out/
-else
-make mido_defconfig O=out/
-fi
 }
 
 compile()
 {
 echoText "Compiling Kernel"
-if [ "$CLANG" == "yes" ]
-then
-tgm "[Building]($BUILD_URL) \`${FINAL_VER}\`"
+tgm "Building \`${FINAL_VER}\`"
 make CC=clang -j$(nproc --all) O=out/
-else
-tgm "[Building]($BUILD_URL) \`${FINAL_VER}\`"
-make -j$(nproc --all) O=out/
-fi
-status
+
 }
 
 zipit()
@@ -101,20 +62,30 @@ cd "${ZIPDIR}"
 cp -v "${IMAGE}" "${ZIPDIR}"
 cd "${ZIPDIR}"
 zip -r9 "${FINAL_ZIP}" *
-size=$(du -sh $FINAL_ZIP | awk '{print $1}')
+SIZE=$(du -sh $FINAL_ZIP | awk '{print $1}')
 fileid=$(~/gdrive upload --parent ${KERNEL_BUILDS} ${FINAL_ZIP} | tail -1 | awk '{print $2}')
-tgm "[${FINAL_ZIP}](https://drive.google.com/uc?id=$fileid&export=download)"
-tgm "FileSize - $size"
-tgm "${POST_MESSAGE}"
+FILE="[${FINAL_ZIP}](https://drive.google.com/uc?id=$fileid&export=download)"
+BUILD_INFO="
+Download File:
+$FILE
+SIZE: $SIZE"
 }
 
 START=$(date +"%s")
 clean
 defconfig
 compile
+if [ ! -f "${IMAGE}" ]; then
+reportError "Kernel compilation failed"
+tgm "Build Failed @Adesh15"
+else
+reportSuccess "Build Successful"
 zipit
 END=$(date +"%s")
 DIFF=$((END - START))
-echoText "Build took $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds."
+echoText "Build successfull in $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds."
+tgm "Build successfull in $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds."
+tgm "$BUILD_INFO"
+fi
 
 cd $ROOT_PATH
