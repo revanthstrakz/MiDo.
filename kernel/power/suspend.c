@@ -50,6 +50,7 @@ static DECLARE_WAIT_QUEUE_HEAD(suspend_freeze_wait_head);
 enum freeze_state __read_mostly suspend_freeze_state;
 static DEFINE_SPINLOCK(suspend_freeze_lock);
 
+
 #ifdef CONFIG_SUSPEND_WATCHDOG
 static void suspend_watchdog_handler(unsigned long data);
 static DEFINE_TIMER(wd_timer, suspend_watchdog_handler, 0, 0);
@@ -77,6 +78,7 @@ static void suspend_watchdog_clear(void)
 #define suspend_watchdog_set()		do {} while (0)
 #define suspend_watchdog_clear()	do {} while (0)
 #endif
+
 
 void freeze_set_ops(const struct platform_freeze_ops *ops)
 {
@@ -430,6 +432,7 @@ static int suspend_enter(suspend_state_t state, bool *wakeup)
 
  Platform_wake:
 	platform_resume_noirq(state);
+	thaw_fingerprintd();
 	dpm_resume_noirq(PMSG_RESUME);
 
  Platform_early_resume:

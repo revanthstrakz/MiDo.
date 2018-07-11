@@ -1,0 +1,3 @@
+/dts-v1/;
+
+#include "msm8953-qrd-sku3-mido.dtsi"
