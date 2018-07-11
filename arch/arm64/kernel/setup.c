@@ -61,18 +61,7 @@
 #include <asm/memblock.h>
 #include <asm/psci.h>
 #include <asm/efi.h>
-#include <asm/bootinfo.h>
 #include <asm/system_misc.h>
-
-#ifdef CONFIG_OF_FLATTREE
-void __init early_init_dt_setup_pureason_arch(unsigned long pu_reason)
-{
-#ifdef CONFIG_BOOT_INFO
-	set_powerup_reason(pu_reason);
-	pr_info("Powerup reason=0x%x\n", get_powerup_reason());
-#endif
-}
-#endif
 
 unsigned int boot_reason;
 EXPORT_SYMBOL(boot_reason);
@@ -373,12 +362,7 @@ void __init setup_arch(char **cmdline_p)
 	 * faults in case uaccess_enable() is inadvertently called by the init
 	 * thread.
 	 */
-	init_thread_info.ttbr0 = __pa_symbol(empty_zero_page);
-#ifdef CONFIG_THREAD_INFO_IN_TASK
-	init_task.thread_info.ttbr0 = virt_to_phys(empty_zero_page);
-#else
 	init_thread_info.ttbr0 = virt_to_phys(empty_zero_page);
-#endif
 #endif
 
 #ifdef CONFIG_VT
