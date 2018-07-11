@@ -47,6 +47,7 @@ echoText "Generating Defconfig"
 make CC=clang mido_defconfig O=out/
 }
 
+
 compile()
 {
 echoText "Compiling Kernel"
