@@ -29,7 +29,6 @@ echoText "Cleaning Up"
 rm -rf $ZIPDIR/*.zip
 rm -rf $ZIPDIR/Image*
 }
-
 defconfig()
 {
 export CLANG_PATH=/home/adesikha15/clang/clang-7.0.2/bin
