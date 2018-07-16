@@ -1,7 +1,11 @@
 #!/bin/sh
+<<<<<<< HEAD
 
 # Copyright (C) 2018 Adesh Ikhar (Adesh15)
 # SPDX-License-Identifier: GPL-3.0-only
+=======
+# Copyright (C) 2018 Adesh Ikhar (Adesh15)
+>>>>>>> ad/oreo-mr1
 
 export TERM=xterm
 
@@ -9,6 +13,11 @@ source ~/mystuff/.creds
 source ~/mystuff/common
 onLogin
 
+<<<<<<< HEAD
+=======
+CLEAN="$1"
+
+>>>>>>> ad/oreo-mr1
 #TG send message function
 export CHAT_ID="$MY_CHAT $CHAT_ID"
 
@@ -29,6 +38,10 @@ echoText "Cleaning Up"
 rm -rf $ZIPDIR/*.zip
 rm -rf $ZIPDIR/Image*
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> ad/oreo-mr1
 defconfig()
 {
 export CLANG_PATH=/home/adesikha15/clang/clang-7.0.2/bin
@@ -40,19 +53,34 @@ export CLANG_TCHAIN="/home/adesikha15/clang/clang-7.0.2/bin/clang"
 export KBUILD_COMPILER_STRING="$(${CLANG_TCHAIN} --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')"
 FINAL_VER="${KERNEL_NAME}-${DEVICE}-clang"
 FINAL_ZIP="${FINAL_VER}-$(date +"%Y%m%d").zip"
+<<<<<<< HEAD
 make clean O=out/
 make mrproper O=out/
+=======
+if [ "$CLEAN" == "clean" ]
+then
+echoText "Building Clean"
+make clean O=out/
+make mrproper O=out/
+fi
+>>>>>>> ad/oreo-mr1
 echoText "Generating Defconfig"
 make CC=clang mido_defconfig O=out/
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ad/oreo-mr1
 compile()
 {
 echoText "Compiling Kernel"
 tgm "Building \`${FINAL_VER}\`"
 make CC=clang -j$(nproc --all) O=out/
+<<<<<<< HEAD
 
+=======
+>>>>>>> ad/oreo-mr1
 }
 
 zipit()

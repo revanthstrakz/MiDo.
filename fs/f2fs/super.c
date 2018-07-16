@@ -1352,8 +1352,6 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
 	if (F2FS_OPTION(sbi).test_dummy_encryption)
 		seq_puts(seq, ",test_dummy_encryption");
 #endif
-
-	if (F2FS_OPTION(sbi).alloc_mode == ALLOC_MODE_DEFAULT)
 		seq_printf(seq, ",alloc_mode=%s", "default");
 	else if (F2FS_OPTION(sbi).alloc_mode == ALLOC_MODE_REUSE)
 		seq_printf(seq, ",alloc_mode=%s", "reuse");
@@ -2910,8 +2908,6 @@ try_onemore:
 	if (err)
 		goto free_node_inode;
 
-	f2fs_sbi_list_add(sbi);
-
 	/* read root inode and dentry */
 	root = f2fs_iget(sb, F2FS_ROOT_INO(sbi));
 	if (IS_ERR(root)) {
@@ -3044,7 +3040,6 @@ free_root_inode:
 	dput(sb->s_root);
 	sb->s_root = NULL;
 free_stats:
-	f2fs_sbi_list_del(sbi);
 	f2fs_destroy_stats(sbi);
 free_node_inode:
 	release_ino_entry(sbi, true);
