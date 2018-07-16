@@ -1034,7 +1034,6 @@ static void f2fs_put_super(struct super_block *sb)
 
 	/* write_checkpoint can update stat informaion */
 	f2fs_destroy_stats(sbi);
-	f2fs_sbi_list_del(sbi);
 
 	/*
 	 * normally superblock is clean, so we need to release this.
@@ -1352,6 +1351,8 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
 	if (F2FS_OPTION(sbi).test_dummy_encryption)
 		seq_puts(seq, ",test_dummy_encryption");
 #endif
+
+	if (F2FS_OPTION(sbi).alloc_mode == ALLOC_MODE_DEFAULT)
 		seq_printf(seq, ",alloc_mode=%s", "default");
 	else if (F2FS_OPTION(sbi).alloc_mode == ALLOC_MODE_REUSE)
 		seq_printf(seq, ",alloc_mode=%s", "reuse");
@@ -1374,6 +1375,7 @@ static void default_options(struct f2fs_sb_info *sbi)
 	F2FS_OPTION(sbi).test_dummy_encryption = false;
 	sbi->readdir_ra = 1;
 
+	set_opt(sbi, BG_GC);
 	set_opt(sbi, INLINE_XATTR);
 	set_opt(sbi, INLINE_DATA);
 	set_opt(sbi, INLINE_DENTRY);
@@ -3210,4 +3212,3 @@ module_exit(exit_f2fs_fs)
 MODULE_AUTHOR("Samsung Electronics's Praesto Team");
 MODULE_DESCRIPTION("Flash Friendly File System");
 MODULE_LICENSE("GPL");
-
