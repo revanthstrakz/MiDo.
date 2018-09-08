@@ -15,7 +15,7 @@ int kgsl_devfreq_add_notifier(struct device *, struct notifier_block *);
 int kgsl_devfreq_del_notifier(struct device *, struct notifier_block *);
 
 /* same as KGSL_MAX_PWRLEVELS */
-#define MSM_ADRENO_MAX_PWRLEVELS 20
+#define MSM_ADRENO_MAX_PWRLEVELS 10
 
 struct xstats {
 	u64 ram_time;
@@ -30,6 +30,10 @@ struct devfreq_msm_adreno_tz_data {
 		s64 busy_time;
 		u32 ctxt_aware_target_pwrlevel;
 		u32 ctxt_aware_busy_penalty;
+#if 1
+		int last_level;
+		int cycles_keeping_level;
+#endif
 	} bin;
 	struct {
 		u64 total_time;
