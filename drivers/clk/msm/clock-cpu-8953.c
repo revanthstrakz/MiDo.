@@ -131,20 +131,20 @@ static struct pll_clk apcs_hf_pll = {
 		.test_ctl_lo_val = 0x1C000000,
 	},
 	.base = &virt_bases[APCS_C0_PLL_BASE],
-	.max_rate = 2400000000UL,
-	.min_rate = 400000000UL,
+	.max_rate = 2844000000UL,
+	.min_rate = 372800000UL,
 	.src_rate =  19200000UL,
 	.c = {
 		.parent = &xo_a_clk.c,
 		.dbg_name = "apcs_hf_pll",
 		.ops = &clk_ops_variable_rate,
 		/* MX level of MSM is much higher than of PLL */
-		VDD_MX_HF_FMAX_MAP1(SVS, 2400000000UL),
+		VDD_MX_HF_FMAX_MAP1(SVS, 2844000000UL),
 		CLK_INIT(apcs_hf_pll.c),
 	},
 };
 
-static const char *mux_names[] = {"c0", "c1", "cci"};
+static const char const *mux_names[] = {"c0", "c1", "cci"};
 
 /* Perf Cluster */
 static struct mux_div_clk a53ssmux_perf = {
@@ -156,7 +156,7 @@ static struct mux_div_clk a53ssmux_perf = {
 	},
 	.c = {
 		.dbg_name = "a53ssmux_perf",
-		.flags = CLKFLAG_NO_RATE_CACHE,
+                .flags = CLKFLAG_NO_RATE_CACHE,
 		.ops = &clk_ops_mux_div_clk,
 		CLK_INIT(a53ssmux_perf.c),
 	},
@@ -178,7 +178,7 @@ static struct mux_div_clk a53ssmux_pwr = {
 	},
 	.c = {
 		.dbg_name = "a53ssmux_pwr",
-		.flags = CLKFLAG_NO_RATE_CACHE,
+                .flags = CLKFLAG_NO_RATE_CACHE,
 		.ops = &clk_ops_mux_div_clk,
 		CLK_INIT(a53ssmux_pwr.c),
 	},
