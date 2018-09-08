@@ -40,8 +40,14 @@
 		#size-cells = <0>;
 		clock-names = "l2_clk", "cpu0_clk", "cpu1_clk",
 				"cpu2_clk", "cpu3_clk", "cpu4_clk",
-				"cpu5_clk", "cpu6_clk", "cpu7_clk";
+				"cpu5_clk","cpu6_clk", "cpu7_clk", 
+                                "cpu8_clk", "cpu9_clk", "cpu10_clk", 
+                                "cpu11_clk", "cpu12_clk";
 		clocks = <&clock_cpu clk_cci_clk>,
+			 <&clock_cpu clk_a53_pwr_clk>,
+			 <&clock_cpu clk_a53_pwr_clk>,
+			 <&clock_cpu clk_a53_pwr_clk>,
+			 <&clock_cpu clk_a53_pwr_clk>,
 			 <&clock_cpu clk_a53_pwr_clk>,
 			 <&clock_cpu clk_a53_pwr_clk>,
 			 <&clock_cpu clk_a53_pwr_clk>,
@@ -104,6 +110,7 @@
 				qcom,spm-device-names = "l2";
 				qcom,default-level=<0>;
 				qcom,cpu = <&CPU0 &CPU1 &CPU2 &CPU3>;
+                                qcom,use-prediction;
 				qcom,psci-mode-shift = <4>;
 				qcom,psci-mode-mask = <0xf>;
 
@@ -197,6 +204,7 @@
 				qcom,spm-device-names = "l2";
 				qcom,default-level=<0>;
 				qcom,cpu = <&CPU4 &CPU5 &CPU6 &CPU7>;
+                                qcom,use-prediction;
 				qcom,psci-mode-shift = <4>;
 				qcom,psci-mode-mask = <0xf>;
 
@@ -402,6 +410,7 @@
 			<0xff 264>, /* arm-smmu context fault */
 			<0xff 269>, /* rpm_wdog_expired_irq */
 			<0xff 270>, /* blsp1_bam_irq[0] */
+			<0xff 271>, /* blsp1_bam_irq[0] */
 			<0xff 273>, /* smmu_bus_intr[18] */
 			<0xff 274>, /* smmu_bus_intr[19] */
 			<0xff 275>, /* rpm_ipc(30) */
